@@ -61,7 +61,7 @@ function App() {
 
   const handleInputChange = (e) => {
     setNise(e.target.value);
-    Cookies.set
+    Cookies.set("nise", e.target.value, { expires: 30 })
   }
 
   return (
