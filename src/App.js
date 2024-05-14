@@ -5,26 +5,45 @@ import React, { useEffect, useState } from 'react';
 function App() {
   const [nise, setNise] = useState('');
   const [data, setData] = useState(null);
+  const [dayMessage, setDayMessage] = useState('');
 
   useEffect(() => {
     const savedNise = Cookies.get('nise');
+    if (savedNise && isNaN(savedNise)) {
+      setNise('');
+      Cookies.remove('nise');
+      return;
+    }
     console.log('savedNise:', savedNise);
     if (savedNise) {
       setNise(savedNise);
-      // Fetch data if there is a saved NISE and load the data
-      fetchData();
+      if (nise) {
+        fetchData();
+        fetchDay();
+      }
     }
-  }, []);
+  }, [nise]);
+
+  const fetchDay = async () => {
+    // hardcoding 101 for now since is just our zone
+    try {
+    const response = await axios.get(`https://apps.grupoice.com/Servicios/rac/texto/101`);
+    setDayMessage(response.data.valor);
+    }
+    catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
 
   const fetchData = async () => {
     if (!nise) {
-      console.error('NISE is required');
       return;
     }
     try {
       const response = await axios.get(`https://apps.grupoice.com/Servicios/rac/1/${nise}`);
       setData(response.data);
       Cookies.set('nise', nise, { expires: 7 }); // Set cookie to expire in 7 days
+      fetchDay();
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -53,7 +72,7 @@ function App() {
       <input
         type="text"
         className="border rounded py-2 px-4"
-        placeholder="Enter NISE"
+        placeholder="Ingrese su NISE"
         value={nise}
         onChange={(e) => setNise(e.target.value)}
       />
@@ -61,7 +80,7 @@ function App() {
         className="bg-blue-500 text-white py-2 px-4 rounded ml-2"
         onClick={fetchData}
       >
-        Search
+        Buscar
       </button>
       {data && (
         <div className="mt-4 border rounded p-4 align-center">
@@ -71,7 +90,7 @@ function App() {
               <p><strong>Tipo de Plan:</strong> {mergedItem.tipoPlan}</p>
               <p><strong>Fecha:</strong> {mergedItem.id.fecha}</p>
               <p><strong>Medidor:</strong> {mergedItem.medidor}</p>
-              <p><strong>Sub Estación:</strong> {mergedItem.sub_estacion}</p>
+              <p>{dayMessage}</p>
               <p><strong>Horarios:</strong> {mergedItem.horarios.join(', ')}</p>
             </div>
           ))}
