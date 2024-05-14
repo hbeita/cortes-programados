@@ -61,12 +61,12 @@ function App() {
 
   const handleInputChange = (e) => {
     setNise(e.target.value);
-    Cookies.set("nise", e.target.value, { expires: 30 }); // Set cookie to expire in 7 days
+    Cookies.set
   }
 
   return (
     <div className="container mx-auto py-8">
-      <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-blue-500 to-purple-700">
+      <div className="min-h-screen flex justify-center items-center">
         <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
           <h2 className="text-2xl font-semibold mb-4">
             Racionamientos de energía programados
