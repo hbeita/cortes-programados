@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/cortes-programados/static/css/main.09aa5a15.css",
+    "main.js": "/cortes-programados/static/js/main.2110d102.js",
+    "static/js/453.4f07bc88.chunk.js": "/cortes-programados/static/js/453.4f07bc88.chunk.js",
+    "index.html": "/cortes-programados/index.html",
+    "main.09aa5a15.css.map": "/cortes-programados/static/css/main.09aa5a15.css.map",
+    "main.2110d102.js.map": "/cortes-programados/static/js/main.2110d102.js.map",
+    "453.4f07bc88.chunk.js.map": "/cortes-programados/static/js/453.4f07bc88.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.09aa5a15.css",
+    "static/js/main.2110d102.js"
+  ]
+}
