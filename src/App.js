@@ -8,12 +8,19 @@ function App() {
 
   useEffect(() => {
     const savedNise = Cookies.get('nise');
+    console.log('savedNise:', savedNise);
     if (savedNise) {
       setNise(savedNise);
+      // Fetch data if there is a saved NISE and load the data
+      fetchData();
     }
   }, []);
 
   const fetchData = async () => {
+    if (!nise) {
+      console.error('NISE is required');
+      return;
+    }
     try {
       const response = await axios.get(`https://apps.grupoice.com/Servicios/rac/1/${nise}`);
       setData(response.data);
@@ -57,10 +64,9 @@ function App() {
         Search
       </button>
       {data && (
-        <div className="mt-4">
-          <h2 className="text-lg font-semibold mb-2">Results:</h2>
+        <div className="mt-4 border rounded p-4 align-center">
           {mergeDataWithSameNise(data).map((mergedItem, index) => (
-            <div key={index} className="border rounded p-4 mb-4">
+            <div key={index} className="p-4 mb-4">
               <h3 className="text-lg font-semibold mb-2">NISE: {mergedItem.id.nise}</h3>
               <p><strong>Tipo de Plan:</strong> {mergedItem.tipoPlan}</p>
               <p><strong>Fecha:</strong> {mergedItem.id.fecha}</p>
